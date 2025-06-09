@@ -1,0 +1,48 @@
+﻿@page "{userId:int}"
+@model RESTprojektLab_Frontend.Pages.SellerViewModel
+@{
+    ViewData["Title"] = "Wystaw przedmiot";
+}
+
+<h2>Wystaw nowy przedmiot</h2>
+
+<div class="container mt-4" style="max-width: 500px;">
+    <form method="post">
+        <div class="form-group">
+            <label>Nazwa</label>
+            <input asp-for="Auction.Name" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label>Opis</label>
+            <textarea asp-for="Auction.Description" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Kategoria</label>
+            <select asp-for="Auction.Category" class="form-select">
+                <option value="">-- Wybierz kategorię --</option>
+                <option value="Książki">Książki</option>
+                <option value="Monety">Monety</option>
+                <option value="Znaczki">Znaczki</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Cena początkowa</label>
+            <input asp-for="Auction.StartingPrice" class="form-control" type="number" step="0.01" min="1.00" />
+        </div>
+
+        <button type="submit" class="btn btn-primary  mt-3">Dodaj</button>
+
+        <input type="hidden" name="userId" value="@Model.UserId" />
+        @*<p><strong>UserID:</strong> @Model.UserId</p>*@
+    </form>
+
+    @if (Model.Message != null)
+    {
+        <div class="alert alert-info mt-3">@Model.Message</div>
+    }
+
+    <a asp-page="/Account" asp-route-userId="@Model.UserId" class="btn btn-secondary mt-3">Powrót</a>
+</div>

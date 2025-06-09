@@ -1,0 +1,61 @@
+﻿@page "{auctionId:int}/{userId:int}"
+@model RESTprojektLab_Frontend.Pages.EditItemModel
+@{
+    ViewData["Title"] = "Edytuj przedmiot";
+}
+
+<h2>Edytuj przedmiot</h2>
+
+<div class="container mt-4" style="max-width: 500px;">
+    @*zabezpieczenie, żeby nie edytować ani nie usuwać już kupionego przedmiotu, ale tylko ze strony użytkowika, przez api można*@
+    @if (Model.Auction.IsAuctionOver)
+    {
+        <div class="alert alert-warning">
+            Aukcja została zakończona. Nie możesz edytować ani usunąć przedmiotu.
+        </div>
+    }
+    else
+    {
+        <form method="post">
+            <input type="hidden" asp-for="Auction.AuctionID" />
+            <input type="hidden" asp-for="Auction.UserID" />
+
+            <div class="form-group">
+                <label>Nazwa</label>
+                <input asp-for="Auction.Name" class="form-control" />
+            </div>
+
+            <div class="form-group mt-2">
+                <label>Opis</label>
+                <textarea asp-for="Auction.Description" class="form-control"></textarea>
+            </div>
+
+            <div class="form-group mt-2">
+                <label>Kategoria</label>
+                <select asp-for="Auction.Category" class="form-select">
+                    <option value="Książki">Książki</option>
+                    <option value="Monety">Monety</option>
+                    <option value="Znaczki">Znaczki</option>
+                </select>
+            </div>
+
+            <div class="form-group mt-2">
+                <label>Cena</label>
+                <input asp-for="Auction.CurrentPrice" class="form-control" />
+            </div>
+
+            @*div na przyciski*@
+            <div class="d-flex justify-content-between mt-4">
+                <button type="submit" name="action" value="save" class="btn btn-primary">Zapisz zmiany</button>
+                <button type="submit" name="action" value="delete" class="btn btn-danger" onclick="return confirm('Czy na pewno chcesz usunąć przedmiot?');">Usuń przedmiot</button>
+            </div>
+        </form>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="alert alert-info mt-3">@Model.Message</div>
+    }
+
+    <a asp-page="/Account" asp-route-userId="@Model.Auction.UserID" class="btn btn-secondary mt-3">Powrót</a>
+</div>

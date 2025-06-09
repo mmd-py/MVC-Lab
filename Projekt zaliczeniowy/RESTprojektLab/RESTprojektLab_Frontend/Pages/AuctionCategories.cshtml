@@ -1,0 +1,23 @@
+﻿@page
+@model RESTprojektLab_Frontend.Pages.AuctionCategoriesModel
+@{
+    ViewData["Title"] = "Kategorie aukcji";
+}
+
+<h2>Kategorie aukcji</h2>
+
+<div class="container mt-4" style="max-width: 500px;">
+    <p><strong>Wybierz kategorię aukcji, w której chcesz uczestniczyć:</strong></p>
+    <form method="get" asp-page="/AuctionList">
+        <div class="d-grid gap-2">
+            <button type="submit" name="category" value="Książki" class="btn btn-outline-primary">Książki</button>
+            <p>Unikalne wydania, których nie znajdziesz w księgarniach.</p>
+            <button type="submit" name="category" value="Monety" class="btn btn-outline-primary">Monety</button>
+            <p>Poszerz kolekcję o rzadkie i wartościowe egzemplarze.</p>
+            <button type="submit" name="category" value="Znaczki" class="btn btn-outline-primary">Znaczki</button>
+            <p>Filatelistyczne perełki - stemplowane i oryginalne.</p>
+            @*wysyła id do przeglądarki i model z AuctionList.cshtml.cs odbiera i odczytuje z parametru*@
+            <input type="hidden" name="userId" value="@Model.UserId" />
+        </div>
+    </form>
+</div>

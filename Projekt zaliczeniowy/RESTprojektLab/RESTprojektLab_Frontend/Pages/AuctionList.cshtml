@@ -1,0 +1,33 @@
+﻿@page
+@model RESTprojektLab_Frontend.Pages.AuctionListModel
+@{
+    ViewData["Title"] = "Lista aukcji";
+}
+
+<h2>
+@Model.SelectedCategory: lista aukcji</h2>
+
+<div class="container mt-4" style="max-width: 500px;">
+    <div class="form-group">
+        <ul>
+            @*Model.Auctions dotyczy modelu z AuctionList*@
+            @if (Model.Auctions.Any())
+            {
+                <ul class="list-group">
+                    @foreach (var auction in Model.Auctions)
+                    {
+                        <li class="list-group-item">
+                            <a asp-page="/AuctionDetails" asp-route-id="@auction.AuctionID" asp-route-category="@Model.SelectedCategory" asp-route-userId="@Model.UserId" class="text-decoration-none">
+                                <strong>@auction.Name</strong> | @auction.CurrentPrice.ToString("F2") zł
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>Brak otwartych aukcji.</p>
+            }
+        </ul>
+    </<div>
+</div>
