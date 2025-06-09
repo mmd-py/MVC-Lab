@@ -1,0 +1,46 @@
+﻿@page "{userId:int}"
+@model RESTprojektLab_Frontend.Pages.AccountModel
+@{
+    ViewData["Title"] = "Moje konto";
+}
+
+<h2>Moje konto</h2>
+
+<div class="container mt-4" style="max-width: 500px;">
+    <div class="form-group">
+        <p><strong>Imię i nazwisko:</strong> @Model.User.FirstName @Model.User.LastName</p>
+        <p><strong>Login:</strong> @Model.User.Login</p>
+    </div>
+
+    <div class="form-group mt-2">
+        <p><strong>Moje aukcje:</strong></p>
+        @if (Model.UserAuctions.Any())
+        {
+            <ul class="list-group">
+                @foreach (var auction in Model.UserAuctions)
+                {
+                    <li class="list-group-item">
+                        <a asp-page="/EditItem" asp-route-auctionId="@auction.AuctionID" asp-route-userId="@Model.User.UserID" class="text-decoration-none">
+                            <strong>@auction.Name</strong> | @auction.Category | @auction.CurrentPrice.ToString("F2") zł
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Brak wystawionych przedmiotów.</p>
+        }
+    </div>
+
+    <div class="form-group mt-2">
+        <p><strong>Co chcesz zrobić?</strong></p>
+        <a class="btn btn-outline-primary" asp-page="/AuctionCategories" asp-route-userId="@Model.User.UserID">Weź udział w licytacji</a>
+        <a class="btn btn-outline-primary" asp-page="/SellerView" asp-route-userId="@Model.User.UserID">Wystaw przedmiot</a>
+        <a class="btn btn-outline-primary" asp-page="/EditProfile" asp-route-userId="@Model.User.UserID">Edytuj profil</a>
+        <form method="post" asp-page-handler="DeleteAccount">
+            <input type="hidden" name="userId" value="@Model.User.UserID" />
+            <button type="submit" class="btn btn-outline-danger mt-2" onclick="return confirm('Czy na pewno chcesz usunąć konto?');">Usuń konto</button>
+        </form>
+    </div>
+</div>

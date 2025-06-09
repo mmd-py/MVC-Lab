@@ -1,0 +1,41 @@
+﻿@page "{id:int}"
+@model RESTprojektLab_Frontend.Pages.AuctionDetailsModel
+@{
+    ViewData["Title"] = "Aktualna aukcja:";
+}
+
+<h2>@Model.Auction?.Name</h2>
+
+<div class="container mt-4" style="max-width: 500px;">
+    <div class="form-group">
+        <p><strong>Opis:</strong> @Model.Auction?.Description</p>
+        <p><strong>Kategoria:</strong> @Model.Auction?.Category</p>
+        <p><strong>Cena wywoławcza:</strong> @Model.Auction?.StartingPrice.ToString("F2") zł</p>
+        <p><strong>Aktualna cena:</strong> @Model.Auction?.CurrentPrice.ToString("F2") zł</p>
+        <p><strong>Licytacja:</strong> @(Model.Auction?.IsAuctionOver == true ? "zakończona" : "otwarta")</p>
+
+        @if (Model.Auction?.IsAuctionOver != true)
+        {
+            <form method="post">
+                <button type="submit" class="btn btn-success">Licytuj</button>
+                @*żeby siebie samego nie przelicytować, ukryte pole do przechowania danych*@
+                <input type="hidden" asp-for"LatestUser"/>
+            </form>
+        }
+        else
+        {
+            <p class="text-danger">Ta aukcja została zakończona.</p>
+        }
+    </div>
+
+    <div class="mt-4">
+        <p><strong>Przebieg licytacji:</strong></p>
+        <ul class="list-group">
+            @foreach (var step in Model.BiddingSteps)
+            {
+                <li class="list-group-item">@step</li>
+            }
+        </ul>
+        <a asp-page="/AuctionList" asp-route-category="@Model.Category" asp-route-userId="@Model.UserId" class="btn btn-secondary mt-3">Powrót</a>
+    </div>
+</div>

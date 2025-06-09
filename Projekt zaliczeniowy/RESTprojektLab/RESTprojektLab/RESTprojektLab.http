@@ -1,0 +1,6 @@
+@RESTprojektLab_HostAddress = http://localhost:5010
+
+GET {{RESTprojektLab_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
